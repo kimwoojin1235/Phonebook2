@@ -64,13 +64,12 @@ public class PhoneController extends HttpServlet {
 			response.sendRedirect("/phonebook2/pbc?action=list");
 			//다시 리스트를 불러온다.
 		}else if ("delete".equals(action)) {
-			int Id=Integer.parseInt(request.getParameter("id"));
+			int Id=Integer.parseInt(request.getParameter("Id"));
 			PhoneVo phoneVo = new PhoneVo(Id);
 			PhoneDao phoneDao = new PhoneDao();
 			phoneDao.persondelete(phoneVo);
 			response.sendRedirect("/phonebook2/pbc?action=list");
 		}else if ("update".equals(action)) {
-			System.out.println("수정폼 처리");
 			RequestDispatcher rd=request.getRequestDispatcher("/WEB-INF/updateForm.jsp");
 			rd.forward(request, response);
 		}else if ("update1".equals(action)) {
