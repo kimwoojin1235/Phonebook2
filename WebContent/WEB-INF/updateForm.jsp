@@ -5,8 +5,8 @@
 <%
 int personId= Integer.parseInt(request.getParameter("id")); 
 
-PhoneDao phoneDao = new PhoneDao();
-PhoneVo phoneVo=phoneDao.getPerson(personId);
+//PhoneDao phoneDao = new PhoneDao();
+PhoneVo phoneVo=(PhoneVo)request.getAttribute("pVo");//=phoneDao.getPerson(personId);
 %>
 <!DOCTYPE html>
 <html>

@@ -40,7 +40,7 @@
 			<td><%= personList.get(i).getCompany() %></td>
 		</tr>
 		<tr>
-			<td><a href="/phonebook2/pbc?action=update&id=<%=personList.get(i).getPersonid()%>">수정</a></td>
+			<td><a href="/phonebook2/pbc?action=updateForm&id=<%=personList.get(i).getPersonid()%>">수정</a></td>
 			<td><a href="/phonebook2/pbc?action=delete&id=<%=personList.get(i).getPersonid()%>">[삭제]</a></td>
 		</tr>
 	</table>

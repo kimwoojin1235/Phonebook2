@@ -69,10 +69,15 @@ public class PhoneController extends HttpServlet {
 			PhoneDao phoneDao = new PhoneDao();
 			phoneDao.persondelete(phoneVo);
 			response.sendRedirect("/phonebook2/pbc?action=list");
-		}else if ("update".equals(action)) {
+		}else if ("updateForm".equals(action)) {
+			int personId = Integer.parseInt(request.getParameter("id"));
+			
+			PhoneDao phoneDao = new PhoneDao();
+			PhoneVo personVo = phoneDao.getPerson(personId);
+			request.setAttribute("pVo", personVo);
 			RequestDispatcher rd=request.getRequestDispatcher("/WEB-INF/updateForm.jsp");
 			rd.forward(request, response);
-		}else if ("update1".equals(action)) {
+		}else if ("update".equals(action)) {
 			//파라미터4개값
 			String name= request.getParameter("name");
 			String hp= request.getParameter("hp");
