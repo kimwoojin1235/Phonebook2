@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.javaex.dao.PhoneDao;
+import com.javaex.util.WebUtil;
 import com.javaex.vo.PhoneVo;
 
 
@@ -27,7 +28,7 @@ public class PhoneController extends HttpServlet {
 		System.out.println(action);
 		
 		//action =list -->리스트 출려관련
-		if("list".equals(action)){
+		/*if("list".equals(action)){
 			System.out.println("리스트 처리");
 			//리스트 출력 처리
 			PhoneDao phoneDao = new PhoneDao();
@@ -38,15 +39,16 @@ public class PhoneController extends HttpServlet {
 			request.setAttribute("pList",personList);
 			//request.setAttribute <-("내가 정한 이름", 전송할 데이터);넣는다.
 			//jsp에 포워드 시킨다.
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/list.jsp"); //jsp파일 위치를 알려줌
-			rd.forward(request, response);
+			//RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/list.jsp"); //jsp파일 위치를 알려줌
+			//rd.forward(request, response);
 			//rd에게 리스트의 위치를 알려주고 받은걸 처리해 준다.
 			//action =wform >등록폼
 			//action =
-		} else if ("wform".equals(action)) {
+			WebUtil.forword(request, response,"/WEB-INF/list.jsp");//파일의 위치
+		} else*/ if ("wform".equals(action)) {
 			System.out.println("등록폼 처리");
-			RequestDispatcher rd=request.getRequestDispatcher("/WEB-INF/writeForm.jsp");
-			rd.forward(request, response);
+			WebUtil.forword(request, response,"/WEB-INF/writeForm.jsp");
+
 		}else if ("insert".equals(action)) {
 			System.out.println("전화번호 저장");
 			//파라미터3개값
@@ -61,22 +63,27 @@ public class PhoneController extends HttpServlet {
 			phoneDao.personInsert(phoneVo);
 			//번호를 저장한다.
 			
-			response.sendRedirect("/phonebook2/pbc?action=list");
+			//response.sendRedirect("/phonebook2/pbc?action=list");
 			//다시 리스트를 불러온다.
+			WebUtil.forword(request, response,"/phonebook2/pbc?action=list");//url의 위치
 		}else if ("delete".equals(action)) {
 			int Id=Integer.parseInt(request.getParameter("Id"));
 			PhoneVo phoneVo = new PhoneVo(Id);
 			PhoneDao phoneDao = new PhoneDao();
 			phoneDao.persondelete(phoneVo);
-			response.sendRedirect("/phonebook2/pbc?action=list");
+			//response.sendRedirect("/phonebook2/pbc?action=list");
+			WebUtil.forword(request, response,"/phonebook2/pbc?action=list");
 		}else if ("updateForm".equals(action)) {
 			int personId = Integer.parseInt(request.getParameter("id"));
 			
 			PhoneDao phoneDao = new PhoneDao();
 			PhoneVo personVo = phoneDao.getPerson(personId);
 			request.setAttribute("pVo", personVo);
+			/*
 			RequestDispatcher rd=request.getRequestDispatcher("/WEB-INF/updateForm.jsp");
 			rd.forward(request, response);
+			*/
+			WebUtil.forword(request, response,"/WEB-INF/updateForm.jsp");
 		}else if ("update".equals(action)) {
 			//파라미터4개값
 			String name= request.getParameter("name");
@@ -90,7 +97,25 @@ public class PhoneController extends HttpServlet {
 			//dao personinsert(PhoneVo)
 			phoneDao.personUpdate(phoneVo);
 			//번호를 저장한다.
-			response.sendRedirect("/phonebook2/pbc?action=list");
+			//response.sendRedirect("/phonebook2/pbc?action=list");
+			WebUtil.forword(request, response,"/phonebook2/pbc?action=list");
+		}else {//url을 잘못칠 경우 리스트로 간다.
+			System.out.println("리스트 처리");
+			//리스트 출력 처리
+			PhoneDao phoneDao = new PhoneDao();
+			List<PhoneVo> personList = phoneDao.getpersonList();//리스트를 다가지고 온다.
+			//html-->개 복잡-->jsp에서 짜는게 편함
+			
+			//데이터 전달
+			request.setAttribute("pList",personList);
+			//request.setAttribute <-("내가 정한 이름", 전송할 데이터);넣는다.
+			//jsp에 포워드 시킨다.
+			//RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/list.jsp"); //jsp파일 위치를 알려줌
+			//rd.forward(request, response);
+			//rd에게 리스트의 위치를 알려주고 받은걸 처리해 준다.
+			//action =wform >등록폼
+			//action =
+			WebUtil.forword(request, response,"/WEB-INF/list.jsp");//파일의 위치
 		}
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
